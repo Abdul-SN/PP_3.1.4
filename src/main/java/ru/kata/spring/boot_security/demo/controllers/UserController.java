@@ -22,7 +22,7 @@ public class UserController {
         this.userService = userService;
     }
     @GetMapping
-    public String getAllUsers(Model model, @Autowired Principal principal) {
+    public String getAllUsers(Model model, Principal principal) {
         User user = userService.findByEmail(principal.getName());
         model.addAttribute("user", user);
         return "/user/info";

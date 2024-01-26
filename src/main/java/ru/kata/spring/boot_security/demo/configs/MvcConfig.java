@@ -9,9 +9,10 @@ public class MvcConfig implements WebMvcConfigurer {
 
 
     /**
-    * Добавляем контроллер просмотра для URL "/user" и устанавливаем  представления на "user".
+    * Добавляем контроллер просмотра для URL "/index" и устанавливаем  представления на "index".
     */
     public void addViewControllers(ViewControllerRegistry registry) {
-        registry.addViewController("/index").setViewName("index");
+        registry.addRedirectViewController("/index", "/");
+        registry.addViewController("/").setViewName("/admin/index");
     }
 }
