@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>New user</title>
+    <link href="/css/main.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+</head>
+<body>
+
+<form  class="table" th:method="post" th:action="@{/admin/users}" th:object="${user}">
+    <table class="table">
+        <thead>
+        <tr>
+            <th scope="col"></th>
+            <th scope="col"></th>
+        </tr>
+        </thead>
+
+        <tbody>
+        <tr>
+            <th>Name:</th>
+            <th><input type="text" th:field="*{firstName}" placeholder="Name"/></th>
+        </tr>
+        <tr>
+            <th>Surname</th>
+            <th><input type="text" th:field="*{lastName}" placeholder="Surname"/></th>
+        </tr>
+        <tr>
+            <th>Email:</th>
+            <th><input type="text" th:field="*{email}" placeholder="Email"/></th>
+        </tr>
+        <tr>
+            <th>Age:</th>
+            <th><input type="text" th:field="*{age}" placeholder="Age"/></th>
+        </tr>
+        <tr>
+            <th>Password:</th>
+            <th><input type="password" th:field="*{password}" placeholder="Password"/></th>
+        </tr>
+        <tr>
+            <th>Roles:</th>
+            <th>
+                <input type="checkbox" th:value="1" th:field="*{roles}">
+                <label>USER</label>
+                <input type="checkbox" th:value="2" th:field="*{roles}">
+                <label>ADMIN</label>
+            </th>
+        </tr>
+        </tbody>
+    </table>
+
+    <hr/>
+    <input type="submit" value="Add User"/>
+
+</form>
+
+</body>
+
+<a th:href="@{/logout}" >
+    <div class="button">
+        <span>Log Out</span>
+    </div>
+</a>
+</html>
