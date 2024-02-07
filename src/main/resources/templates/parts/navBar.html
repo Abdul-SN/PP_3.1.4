@@ -1,0 +1,23 @@
+<nav class="navbar navbar-expand-sm bg-body-tertiary text-white py-1" data-bs-theme="dark">
+    <div class="container-fluid">
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup"
+                aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Переключатель навигации">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+            <div class="nav-item"><b>
+                <span class="me-1 fs-5" th:text="${authorizedUser.getEmail()}">Email</span></b>
+            </div>
+            <div class="nav-item">
+                <span class="me-1 fs-5">with roles:</span>
+            </div>
+            <div class="nav-item">
+                <span class="me-1 fs-5" th:each="role: ${authorizedUser.getRoleList()}"
+                      th:text="${role}"></span>
+            </div>
+            <div class="navbar-nav ms-auto">
+                <a class="nav-link" th:href="@{/logout}">Logout</a>
+            </div>
+        </div>
+    </div>
+</nav>

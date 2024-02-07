@@ -1,55 +1,102 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>User info</title>
-    <link href="/css/main.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
-          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
 </head>
 <body>
-<h3>User info</h3>
-<table class="table">
-    <thead>
-    <tr>
-        <th scope="col"></th>
-        <th scope="col"></th>
-    </tr>
-    </thead>
+<!--______________________________________________________________________________________________________________________________________________________________________________________________________________________________________________-->
 
-    <tbody th:object="${user}">
-    <tr>
-        <th>Name:</th>
-        <th> <td th:text="*{firstName}"/></th>
-    </tr>
-    <tr>
-        <th>Surname</th>
-        <th> <td th:text="*{lastName}"/>
-    </tr>
-    <tr>
-        <th>Email:</th>
-        <th> <td th:text="*{email}"/>
-    </tr>
-    <tr>
-        <th>Age:</th>
-        <th> <td th:text="*{age}"/>
-    </tr>
-    <tr>
-        <th>Roles:</th>
-        <th>
-            <td th:text="*{roles}"/>
-    </tr>
-    </tbody>
-</table>
+<!--(1) ШАПКА-->
 
-</body>
-
-<a th:href="@{/logout}" >
-    <div class="button">
-        <span>Log Out</span>
+<nav class="navbar navbar-expand-sm bg-body-tertiary text-white py-1" data-bs-theme="dark">
+    <div class="container-fluid">
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup"
+                aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Переключатель навигации">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+            <div class="nav-item"><b>
+                <span class="me-1 fs-5" th:text="${authorizedUser.getEmail()}">Email</span></b>
+            </div>
+            <div class="nav-item">
+                <span class="me-1 fs-5">with roles:</span>
+            </div>
+            <div class="nav-item">
+                <span class="me-1 fs-5" th:each="role: ${authorizedUser.getRoleList()}"
+                      th:text="${role}"></span>
+            </div>
+            <div class="navbar-nav ms-auto">
+                <a class="nav-link" th:href="@{/logout}">Logout</a>
+            </div>
+        </div>
     </div>
-</a>
+</nav>
 
+<div class="container-fluid vh-100 pe-0 row d-flex align-items-start "> <!-- (1)  Общий контейнер для всей остальной страницы-->
+<!--______________________________________________________________________________________________________________________________________________________________________________________________________________________________________________-->
+
+    <!-- (2) НАВИГАЦЯ РОЛЕЙ (БЛОК СЛЕВА)-->
+
+    <div class="col-2 vh-100 pt-3 pe-0 nav flex-column nav-pills " id="v-pills-tab" role="tablist"
+         aria-orientation="vertical">
+        <button class="nav-link active" id="v-pills-role-user" data-bs-toggle="pill"
+                href="#v-pills-role" role="tab" aria-controls="v-pills-role" aria-selected="true">User
+        </button>
+    </div>
+<!--______________________________________________________________________________________________________________________________________________________________________________________________________________________________________________-->
+
+    <!-- (2) СОДЕРЖАНИЕ РОЛЕЙ (БЛОК СПРАВА)-->
+
+    <div class="tab-content vh-100 col-10 pt-3 ps-5 bg-light" id="v-pills-tabContent">
+        <!-- (3) USER ROLE -->
+
+        <div class="tab-pane fade show active" id="v-pills-role" role="tabpanel" aria-labelledby="v-pills-role-user">
+            <h1>User information-page</h1>
+            <div class="card">
+                <h5 class="card-header">About user</h5>
+                <div class="card-body">
+<!--______________________________________________________________________________________________________________________________________________________________________________________________________________________________________________-->
+
+                    <!-- (4) ОТОБРАЖЕНИЕ ТАБЛИЦЫ АВТОРИЗОВАННОГО ПОЛЬЗОВАТЕЛЯ-->
+
+                    <table class="table table-striped align-middle">
+                        <thead class="border-top">
+                        <tr>
+                            <th scope="col">ID</th>
+                            <th scope="col">First Name</th>
+                            <th scope="col">Last Name</th>
+                            <th scope="col">Age</th>
+                            <th scope="col">Email</th>
+                            <th scope="col">Role</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr >
+                            <td th:text="${authorizedUser.id}"></td>
+                            <td th:text="${authorizedUser.firstName}"></td>
+                            <td th:text="${authorizedUser.lastName}"></td>
+                            <td th:text="${authorizedUser.age}"></td>
+                            <td th:text="${authorizedUser.email}"></td>
+                            <td><span class="me-1" th:each="role: ${authorizedUser.getRoleList()}"
+                                      th:text="${role}"></span>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+<!--______________________________________________________________________________________________________________________________________________________________________________________________________________________________________________-->
+    </div>
+<!--______________________________________________________________________________________________________________________________________________________________________________________________________________________________________________-->
+</div> <!-- Закрытие общего контейнера -->
+<!--______________________________________________________________________________________________________________________________________________________________________________________________________________________________________________-->
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+        crossorigin="anonymous"></script>
+</body>
 </html>
-
-

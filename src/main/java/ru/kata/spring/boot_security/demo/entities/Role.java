@@ -25,6 +25,10 @@ public class Role implements GrantedAuthority {
         this.roleName = roleName;
     }
 
+    public String getRoleShort() {
+        return roleName.substring(5);
+    }
+
     @Override
     public String getAuthority() {
         return roleName;

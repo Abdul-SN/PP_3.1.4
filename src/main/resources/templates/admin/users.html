@@ -1,50 +1,271 @@
 <!DOCTYPE html>
-<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<html lang="en"  xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>List of users</title>
-    <link href="/css/main.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
-          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <title>About users</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+
 </head>
 <body>
+<!--______________________________________________________________________________________________________________________________________________________________________________________________________________________________________________-->
+
+<!--(1) ШАПКА-->
+
+<nav th:replace="parts/navBar"></nav>
+
+<!--______________________________________________________________________________________________________________________________________________________________________________________________________________________________________________-->
+<div class="container-fluid vh-100 pe-0 row d-flex align-items-start "> <!-- (1)  Общий контейнер для всей остальной страницы-->
+<!--______________________________________________________________________________________________________________________________________________________________________________________________________________________________________________-->
+
+    <!-- (2) НАВИГАЦЯ РОЛЕЙ (БЛОК СЛЕВА)-->
+
+    <div class="col-2 vh-100 pt-3 pe-0 nav flex-column nav-pills " id="v-pills-tab" role="tablist"
+         aria-orientation="vertical">
+        <button  class="nav-link active" id="v-pills-role-admin" data-bs-toggle="pill"
+                href="#v-pills-admin" role="tab" aria-controls="v-pills-admin" aria-selected="true">Admin
+        </button>
+        <button class="nav-link" id="v-pills-role-user" data-bs-toggle="pill"
+                href="#v-pills-role" role="tab" aria-controls="v-pills-role" aria-selected="false">User
+        </button>
+    </div>
+<!--______________________________________________________________________________________________________________________________________________________________________________________________________________________________________________-->
+
+    <!-- (2) СОДЕРЖАНИЕ РОЛЕЙ (БЛОК СПРАВА)-->
+
+    <div class="tab-content vh-100 col-10 pt-3 ps-5 bg-light" id="v-pills-tabContent">
+<!--______________________________________________________________________________________________________________________________________________________________________________________________________________________________________________-->
+
+        <!-- (3) ADMIN РОЛЬ  -->
+
+        <div class="tab-pane fade show active" id="v-pills-admin" role="tabpanel" aria-labelledby="v-pills-role-admin">
+            <h1>Admin panel</h1>
+<!--______________________________________________________________________________________________________________________________________________________________________________________________________________________________________________-->
+
+            <!-- (4) ВКЛАДКИ НАВИГАЦИОННЫЕ-->
+
+            <nav>
+                <div class="nav nav-tabs pt-2" id="nav-tab" role="tablist">
+                    <a class="nav-link active" id="nav-users-tab" data-bs-toggle="tab"
+                            href="#nav-users" type="button" role="tab" aria-controls="nav-users"
+                            aria-selected="true">Users table
+                    </a>
+                    <a class="nav-link" id="nav-profile-tab" data-bs-toggle="tab"
+                            href="#nav-profile" type="button" role="tab"
+                            aria-controls="nav-profile" aria-selected="false">New User
+                    </a>
+                </div>
+            </nav>
+<!--______________________________________________________________________________________________________________________________________________________________________________________________________________________________________________-->
+
+            <!-- (4)  СОДЕРЖАНИЕ ВКЛАДОК -->
+
+            <div class="tab-content " id="nav-tabContent">
+<!--______________________________________________________________________________________________________________________________________________________________________________________________________________________________________________-->
+
+                <!--(5)  USERS TABLE (1 ВКЛАДКА) -->
+
+               <div th:replace="parts/usersTable"></div>
+
+<!--______________________________________________________________________________________________________________________________________________________________________________________________________________________________________________-->
+
+                <!--(5)  NEW USER (2 ВКЛАДКА) -->
+
+                <div th:replace="parts/addUser"></div>
+
+            </div>
+        </div>
+<!--______________________________________________________________________________________________________________________________________________________________________________________________________________________________________________-->
+
+        <!-- (3) USER ROLE -->
+
+        <div class="tab-pane fade" id="v-pills-role" role="tabpanel" aria-labelledby="v-pills-role-user">
+            <h1>User information-page</h1>
+            <div class="card mt-3">
+                <h5 class="card-header">About user</h5>
+                <div class="card-body">
+<!--______________________________________________________________________________________________________________________________________________________________________________________________________________________________________________-->
+
+                <!-- (4) ОТОБРАЖЕНИЕ ТАБЛИЦЫ АВТОРИЗОВАННОГО ПОЛЬЗОВАТЕЛЯ-->
+
+                    <table class="table table-striped align-middle">
+                        <thead class="border-top">
+                        <tr>
+                            <th scope="col">ID</th>
+                            <th scope="col">First Name</th>
+                            <th scope="col">Last Name</th>
+                            <th scope="col">Age</th>
+                            <th scope="col">Email</th>
+                            <th scope="col">Role</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr >
+                            <td th:text="${authorizedUser.id}"></td>
+                            <td th:text="${authorizedUser.firstName}"></td>
+                            <td th:text="${authorizedUser.lastName}"></td>
+                            <td th:text="${authorizedUser.age}"></td>
+                            <td th:text="${authorizedUser.email}"></td>
+                            <td><span class="me-1" th:each="role: ${authorizedUser.getRoleList()}"
+                                      th:text="${role}"></span>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div> <!-- Закрытие общего контейнера -->
 
 
-<table class="table">
-    <thead>
-    <tr>
-        <th scope="col">Id</th>
-        <th scope="col">Name</th>
-        <th scope="col">Surname</th>
-        <th scope="col">Email</th>
-        <th scope="col">Age</th>
-        <th scope="col">Roles</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr th:each="user: ${users}">
-        <td th:text="${user.id}"/>
-        <td>
-            <a th:href="@{/admin/users/update(id=${user.id})}" th:text="${user.firstName}">user</a>
-        </td>
-        <td th:text="${user.lastName}"/>
-        <td th:text="${user.email}"/>
-        <td th:text="${user.age}"/>
-        <td th:text="${user.roles}"/>
+<!--(1) МОДАЛЬНОЕ ОКНО РЕДАКТИРОВАНИЯ-->
+<div th:replace="parts/editForm"></div>
 
-    </tr>
-    </tbody>
-</table>
+<!--(1) МОДАЛЬНОЕ ОКНО УДАЛЕНИЯ-->
+<div th:replace="parts/deleteForm"></div>
 
-<br/>
-<hr/>
-<a href="/admin/users/add">Add new User</a>
+<script src="https://code.jquery.com/jquery-3.6.3.js"
+        integrity="sha256-nQLuAZGRRcILA+6dMBOvcRh5Pe310sBpanc6+QBmyVM="
+        crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+        crossorigin="anonymous"></script>
+
+<script>
+
+
+// EDIT SCRIPT
+
+    class User {
+        constructor() {
+            this.roles = [];
+        }
+
+        addRole(role) {
+            this.roles.push(role);
+        }
+    }
+
+    $('#userEditDialog').on('shown.bs.modal', function (event) {
+        let button = $(event.relatedTarget) // Button that triggered the modal
+        let userId = button.data('user-id') // Extract info from data-* attributes
+
+        if (userId) {
+            $.get({
+                url: '/api/v1/user/' + userId,
+                success: (data) => {
+                    let modal = $(this)
+                    let user = new User()
+                    user.id = data.id
+                    user.firstName = data.firstName
+                    user.lastName = data.lastName
+                    user.age = data.age
+                    user.email = data.email
+                    user.password = data.password
+
+                    // Convert roles to Set<Role>
+                    data.roles.forEach(role => {
+                        user.addRole({ id: role.id, roleName: role.roleName })
+                    })
+
+                    modal.find('#user-id').val(data.id)
+                    modal.find('#first-name').val(data.firstName)
+                    modal.find('#last-name').val(data.lastName)
+                    modal.find('#user-age').val(data.age)
+                    modal.find('#user-email').val(data.email)
+                    modal.find('#user-password').val()
+                    modal.find('#user-role').val(data.roles.map(role => role.id))
+
+                },
+                error: (err) => {
+                    alert(err);
+                }
+            });
+        }
+    })
+
+    $('#save-user-button').click(function() {
+        let modal = $('#userEditDialog')
+        let user = {
+            firstName: modal.find('#first-name').val(),
+            lastName: modal.find('#last-name').val(),
+            age: modal.find('#user-age').val(),
+            email: modal.find('#user-email').val(),
+            password: modal.find('#user-password').val(),
+            roles: modal.find('#user-role').val().map(roleId => {
+                return { id: roleId, roleName: "ROLE_" + modal.find('#user-role option:selected').filter(`[value="${roleId}"]`).text() }
+            })
+        };
+        if (modal.find('#user-id').val()) {
+            user.id = modal.find('#user-id').val()
+        }
+        $.ajax({
+            url: '/api/v1/user/update',
+            type: 'POST',
+            data: JSON.stringify(user),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: () => {
+                location.reload()
+            },
+            error: (err) => {
+                alert(err);
+            }
+        })
+
+    });
+</script>
+
+<script>
+
+    // DELETE SCRIPT
+
+    $('#userDeleteDialog').on('shown.bs.modal', function (event) {
+        let button = $(event.relatedTarget) // Button that triggered the modal
+        let userId = button.data('user-id') // Extract info from data-* attributes
+
+        if (userId) {
+            $.get({
+                url: '/api/v1/user/' + userId,
+                success: (data) => {
+                    let modal = $(this)
+
+                    modal.find('#user-id').val(data.id)
+                    modal.find('#first-name').val(data.firstName)
+                    modal.find('#last-name').val(data.lastName)
+                    modal.find('#user-age').val(data.age)
+                    modal.find('#user-email').val(data.email)
+                    modal.find('#user-password').val()
+                    modal.find('#user-role').val(data.roles.map(role => role.id))
+                },
+                error: (err) => {
+                    alert(err);
+                }
+            });
+        }
+    });
+
+    $('#delete-user-button').click(function() {
+        let modal = $('#userDeleteDialog')
+        let userId = modal.find('#user-id').val()
+
+        $.ajax({
+            url: '/api/v1/user/delete/' + userId,
+            type: 'POST',
+            success: () => {
+                location.reload()
+            },
+            error: (err) => {
+                alert(err);
+            }
+        });
+    });
+
+</script>
 
 </body>
-
-<a th:href="@{/logout}" >
-    <div class="button">
-        <span>Log Out</span>
-    </div>
-</a>
 </html>

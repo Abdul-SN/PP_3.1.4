@@ -3,17 +3,17 @@ package ru.kata.spring.boot_security.demo.entities;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.crypto.password.PasswordEncoder;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Setter
 @Getter
@@ -52,6 +52,14 @@ public class User implements UserDetails {
         this.email = email;
         this.password = password;
         this.age = age;
+    }
+
+    public boolean isAdmin(){
+        return getRoleList().contains("ADMIN");
+    }
+
+    public List<String> getRoleList(){
+        return roles.stream().map(Role::getRoleShort).collect(Collectors.toList());
     }
 
     @Override
