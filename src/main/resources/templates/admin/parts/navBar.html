@@ -6,14 +6,13 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
             <div class="nav-item"><b>
-                <span class="me-1 fs-5" th:text="${authorizedUser.getEmail()}">Email</span></b>
+                <span class="me-1 fs-5" id="navbar-email">Email</span></b>
             </div>
             <div class="nav-item">
                 <span class="me-1 fs-5">with roles:</span>
             </div>
             <div class="nav-item">
-                <span class="me-1 fs-5" th:each="role: ${authorizedUser.getRoleList()}"
-                      th:text="${role}"></span>
+                <span class="me-1 fs-5" id="navbar-roles"></span>
             </div>
             <div class="navbar-nav ms-auto">
                 <a class="nav-link" th:href="@{/logout}">Logout</a>

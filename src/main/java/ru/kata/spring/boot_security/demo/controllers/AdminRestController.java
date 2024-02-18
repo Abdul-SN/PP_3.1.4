@@ -1,19 +1,18 @@
 package ru.kata.spring.boot_security.demo.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
-import ru.kata.spring.boot_security.demo.entities.Role;
 import ru.kata.spring.boot_security.demo.entities.User;
 import ru.kata.spring.boot_security.demo.repositories.RoleRepository;
 import ru.kata.spring.boot_security.demo.services.UserService;
 
-import java.util.HashSet;
+import java.security.Principal;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("/api/v1/user")
+@RequestMapping("/api/v1/admin")
 public class AdminRestController {
 
 
@@ -21,9 +20,31 @@ public class AdminRestController {
     private final PasswordEncoder passwordEncoder;
 
     @Autowired
-    public AdminRestController(UserService userService, RoleRepository roleRepository, PasswordEncoder passwordEncoder) {
+    public AdminRestController(UserService userService, PasswordEncoder passwordEncoder) {
         this.userService = userService;
         this.passwordEncoder = passwordEncoder;
+    }
+
+    @GetMapping("/users")
+    public ResponseEntity<List<User>> getAllUsers(){
+         List<User> allUsers = userService.index();
+
+        if (allUsers != null) {
+            return ResponseEntity.ok(allUsers);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    @GetMapping("/getCurrentUser")
+    public ResponseEntity<User> getCurrentUser(Principal principal) {
+
+        User user = userService.findByEmail(principal.getName());
+        if (user != null) {
+            return ResponseEntity.ok(user);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
     }
 
     @GetMapping("/{userId}")

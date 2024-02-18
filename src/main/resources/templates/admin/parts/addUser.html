@@ -3,44 +3,41 @@
     <div class="card">
         <h5 class="card-header">Add New user</h5>
         <div class="card-body ">
-            <form th:method="post" th:action="@{/admin/add}" th:object="${newUser}">
+            <form id="add-form">
                 <div class="row col-3 mx-auto ">
                     <div class="form-group mb-3 text-center">
                         <label for="firstName" class="form-label fw-bold mb-0">First Name</label>
-                        <input type="text" class="form-control" id="firstName" name="firstName"
-                               th:field="*{firstName}">
+                        <input type="text" class="form-control" id="firstName" name="firstName">
                     </div>
                     <div class="form-group mb-3 text-center">
                         <label for="lastName" class="form-label fw-bold mb-0">Last Name</label>
-                        <input type="text" class="form-control" id="lastName" name="lastName"
-                               th:field="*{lastName}">
+                        <input type="text" class="form-control" id="lastName" name="lastName">
                     </div>
                     <div class="form-group mb-3 text-center">
                         <label for="age" class="form-label fw-bold mb-0">Age</label>
-                        <input type="number" class="form-control" id="age" name="age"
-                               th:field="*{age}">
+                        <input type="number" class="form-control" id="age" name="age">
                     </div>
                     <div class="form-group mb-3 text-center">
                         <label for="email" class="form-label fw-bold mb-0">Email</label>
-                        <input type="email" class="form-control" id="email" name="email"
-                               th:field="*{email}">
+                        <input type="email" class="form-control" id="email" name="email">
                     </div>
                     <div class="form-group mb-3 text-center">
                         <label for="password" class="form-label fw-bold mb-0">Password</label>
-                        <input type="password" class="form-control" id="password" name="password"
-                               th:field="*{password}">
+                        <input type="password" class="form-control" id="password" name="password">
                     </div>
                     <div class="form-group mb-3 text-center">
                         <label for="roles" class="form-label fw-bold mb-0">Role</label>
-                        <select multiple class="form-control" id="roles" size="2" th:field="*{roles}">
+                        <select multiple class="form-control" id="roles" size="2" >
                             <option th:value="1">USER</option>
                             <option th:value="2">ADMIN</option>
                         </select>
                     </div>
                     <div class="form-group mb-3 text-center">
-                        <input class="btn btn-success btn-xl" type="submit" value="Add new user"/>
+                        <button class="btn btn-success btn-xl" id="add-button" type="button" value="Add new user">Add new user</button>
                     </div>
                 </div>
+                <button type="reset" id="resetBtn" style="display:none;"></button>
+
             </form>
         </div>
     </div>
