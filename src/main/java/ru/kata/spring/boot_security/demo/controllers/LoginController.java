@@ -8,6 +8,6 @@ public class LoginController {
 
     @GetMapping("/login")
     public String loginPage (){
-        return "/parts/loginPage";
+        return "admin/parts/loginPage";
     }
 }
